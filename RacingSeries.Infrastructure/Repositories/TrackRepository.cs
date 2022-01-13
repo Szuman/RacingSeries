@@ -2,6 +2,7 @@
 using RacingSeries.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,34 +10,67 @@ namespace RacingSeries.Infrastructure.Repositories
 {
     public class TrackRepository : ITrackRepository
     {
-        public Task AddAsync(Track track)
+        private AppDbContext _appDbContext;
+        public TrackRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Track>> BrowseAllAsync()
+        public async Task AddAsync(Track Track)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Add(Track);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task DelAsync(Track track)
+        public async Task<IEnumerable<Track>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Tracks);
         }
 
-        public Task<Track> GetAsync(Track track)
+        public async Task DelAsync(Track Track)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Tracks.FirstOrDefault(x => x.Id == Track.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task<Track> GetAsync(int id)
+        public async Task<Track> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var z = _appDbContext.Tracks.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult(z);
         }
 
-        public Task UpdateAsync(Track track)
+        public async Task UpdateAsync(Track Track)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var z = _appDbContext.Tracks.FirstOrDefault(x => x.Id == Track.Id);
+
+                z.Id = Track.Id;
+                z.Name = Track.Name;
+                z.City = Track.City;
+                z.Country = Track.Country;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using RacingSeries.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,67 @@ namespace RacingSeries.Infrastructure.Repositories
 {
     public class DriverRepository : IDriverRepository
     {
-        public Task AddAsync(Driver driver)
+        private AppDbContext _appDbContext;
+        public DriverRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Driver>> BrowseAllAsync()
+        public async Task AddAsync(Driver driver)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Add(driver);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task DelAsync(Driver driver)
+        public async Task<IEnumerable<Driver>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Drivers);
         }
 
-        public Task<Driver> GetAsync(int id)
+        public async Task DelAsync(Driver driver)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Drivers.FirstOrDefault(x => x.Id == driver.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task UpdateAsync(Driver driver)
+        public async Task<Driver> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var z = _appDbContext.Drivers.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult(z);
+        }
+
+        public async Task UpdateAsync(Driver driver)
+        {
+            try
+            {
+                var z = _appDbContext.Drivers.FirstOrDefault(x => x.Id == driver.Id);
+
+                z.Id = driver.Id;
+                z.FirstName = driver.FirstName;
+                z.LastName = driver.LastName;
+                z.BirthDate = driver.BirthDate;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using RacingSeries.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,67 @@ namespace RacingSeries.Infrastructure.Repositories
 {
     public class TeamRepository : ITeamRepository
     {
-        public Task AddAsync(Team team)
+        private AppDbContext _appDbContext;
+        public TeamRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Team>> BrowseAllAsync()
+        public async Task AddAsync(Team Team)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Add(Team);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task DelAsync(Team team)
+        public async Task<IEnumerable<Team>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Teams);
         }
 
-        public Task<Team> GetAsync(int id)
+        public async Task DelAsync(Team Team)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Teams.FirstOrDefault(x => x.Id == Team.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task UpdateAsync(Team team)
+        public async Task<Team> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var z = _appDbContext.Teams.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult(z);
+        }
+
+        public async Task UpdateAsync(Team Team)
+        {
+            try
+            {
+                var z = _appDbContext.Teams.FirstOrDefault(x => x.Id == Team.Id);
+
+                z.Id = Team.Id;
+                z.Name = Team.Name;
+                z.Country = Team.Country;
+                z.EntryDate = Team.EntryDate;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }

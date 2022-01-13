@@ -2,6 +2,7 @@
 using RacingSeries.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,66 @@ namespace RacingSeries.Infrastructure.Repositories
 {
     public class ContestRepository : IContestRepository
     {
-        public Task AddAsync(Contest Contest)
+        private AppDbContext _appDbContext;
+        public ContestRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Contest>> BrowseAllAsync()
+        public async Task AddAsync(Contest Contest)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Add(Contest);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task DelAsync(Contest Contest)
+        public async Task<IEnumerable<Contest>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Contests);
         }
 
-        public Task<Contest> GetAsync(int id)
+        public async Task DelAsync(Contest Contest)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Contests.FirstOrDefault(x => x.Id == Contest.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task UpdateAsync(Contest Contest)
+        public async Task<Contest> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var z = _appDbContext.Contests.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult(z);
+        }
+
+        public async Task UpdateAsync(Contest Contest)
+        {
+            try
+            {
+                var z = _appDbContext.Contests.FirstOrDefault(x => x.Id == Contest.Id);
+
+                z.Id = Contest.Id;
+                z.Name = Contest.Name;
+                z.DateTime = Contest.DateTime;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }

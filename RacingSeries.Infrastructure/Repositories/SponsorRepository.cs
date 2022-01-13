@@ -2,6 +2,7 @@
 using RacingSeries.Core.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,29 +10,66 @@ namespace RacingSeries.Infrastructure.Repositories
 {
     public class SponsorRepository : ISponsorRepository
     {
-        public Task AddAsync(Sponsor sponsor)
+        private AppDbContext _appDbContext;
+        public SponsorRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
         }
 
-        public Task<IEnumerable<Sponsor>> BrowseAllAsync()
+        public async Task AddAsync(Sponsor Sponsor)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Add(Sponsor);
+                _appDbContext.SaveChanges();
+                await Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task DelAsync(Sponsor sponsor)
+        public async Task<IEnumerable<Sponsor>> BrowseAllAsync()
         {
-            throw new NotImplementedException();
+            return await Task.FromResult(_appDbContext.Sponsors);
         }
 
-        public Task<Sponsor> GetAsync(int id)
+        public async Task DelAsync(Sponsor Sponsor)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _appDbContext.Remove(_appDbContext.Sponsors.FirstOrDefault(x => x.Id == Sponsor.Id));
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
 
-        public Task UpdateAsync(Sponsor sponsor)
+        public async Task<Sponsor> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            var z = _appDbContext.Sponsors.FirstOrDefault(x => x.Id == id);
+            return await Task.FromResult(z);
+        }
+
+        public async Task UpdateAsync(Sponsor Sponsor)
+        {
+            try
+            {
+                var z = _appDbContext.Sponsors.FirstOrDefault(x => x.Id == Sponsor.Id);
+
+                z.Id = Sponsor.Id;
+                z.Name = Sponsor.Name;
+                z.Description = Sponsor.Description;
+
+                _appDbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                await Task.FromException(ex);
+            }
         }
     }
 }
