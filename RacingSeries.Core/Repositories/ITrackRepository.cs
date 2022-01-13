@@ -12,6 +12,6 @@ namespace RacingSeries.Core.Repositories
         public Task AddAsync(Track track);
         public Task DelAsync(Track track);
         public Task UpdateAsync(Track track);
-        public Task<Track> GetAsync(Track track);
+        public Task<Track> GetAsync(int id);
     }
 }

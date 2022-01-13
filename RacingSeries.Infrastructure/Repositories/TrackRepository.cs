@@ -29,6 +29,11 @@ namespace RacingSeries.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
+        public Task<Track> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task UpdateAsync(Track track)
         {
             throw new NotImplementedException();

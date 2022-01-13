@@ -1,36 +1,72 @@
-﻿using RacingSeries.Infrastructure.DTO;
+﻿using RacingSeries.Core.Repositories;
+using RacingSeries.Infrastructure.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using RacingSeries.Core.Domain;
+using System.Linq;
 
 namespace RacingSeries.Infrastructure.Services
 {
     public class ContestService : IContestService
     {
-        public Task AddContest(ContestDTO Contest)
+        private readonly IContestRepository _contestRepository;
+        public ContestService(IContestRepository contestRepository)
         {
-            throw new NotImplementedException();
+            _contestRepository = contestRepository;
+        }
+        public async Task AddContest(ContestDTO Contest)
+        {
+            await _contestRepository.AddAsync(new Contest()
+            {
+                Id = Contest.Id,
+                Name = Contest.Name,
+                DateTime = Contest.DateTime,
+            });
         }
 
-        public Task<IEnumerable<ContestDTO>> BrowseAll()
+        public async Task<IEnumerable<ContestDTO>> BrowseAll()
         {
-            throw new NotImplementedException();
+            var z = await _contestRepository.BrowseAllAsync();
+            return z.Select(x => new ContestDTO()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                DateTime = x.DateTime
+            });
         }
 
-        public Task DeleteContest(int id)
+        public async Task DeleteContest(int id)
         {
-            throw new NotImplementedException();
+            await _contestRepository.DelAsync(new Contest()
+            {
+                Id = id
+            });
+            await Task.CompletedTask;
         }
 
-        public Task EditContest(ContestDTO Contest, int id)
+        public async Task EditContest(ContestDTO Contest, int id)
         {
-            throw new NotImplementedException();
+            await _contestRepository.UpdateAsync(new Contest()
+            {
+                Id = id,
+                Name = Contest.Name,
+                DateTime = Contest.DateTime,
+            });
+            await Task.CompletedTask;
         }
 
-        public Task<ContestDTO> GetContest(int id)
+        public async Task<ContestDTO> GetContest(int id)
         {
-            throw new NotImplementedException();
+            var z = await _contestRepository.GetAsync(id);
+
+            return new ContestDTO()
+            {
+                Id = z.Id,
+                Name = z.Name,
+                DateTime = z.DateTime
+            };
         }
     }
 }

@@ -6,10 +6,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using RacingSeries.Core.Repositories;
+using RacingSeries.Infrastructure.Repositories;
+using RacingSeries.Infrastructure.Services;
 
 namespace RacingSeries.WebAPI
 {
@@ -26,6 +30,24 @@ namespace RacingSeries.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddScoped<IDriverRepository, DriverRepository>();
+            services.AddScoped<IDriverService, DriverService>();
+
+            services.AddScoped<IContestRepository, ContestRepository>();
+            services.AddScoped<IContestService, ContestService>();
+            
+            services.AddScoped<ISponsorRepository, SponsorRepository>();
+            services.AddScoped<ISponsorService, SponsorService>();
+            
+            services.AddScoped<ITeamRepository, TeamRepository>();
+            services.AddScoped<ITeamService, TeamService>();
+            
+            services.AddScoped<ITrackRepository, TrackRepository>();
+            services.AddScoped<ITrackService, TrackService>();
+
+            services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
+                Configuration.GetConnectionString("RacingSeriesConectionString")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

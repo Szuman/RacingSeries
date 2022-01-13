@@ -1,6 +1,9 @@
-﻿using RacingSeries.Infrastructure.DTO;
+﻿using RacingSeries.Core.Domain;
+using RacingSeries.Core.Repositories;
+using RacingSeries.Infrastructure.DTO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,29 +11,62 @@ namespace RacingSeries.Infrastructure.Services
 {
     public class TeamService : ITeamService
     {
-        public Task AddTeam(TeamDTO team)
+        private readonly ITeamRepository _TeamRepository;
+        public TeamService(ITeamRepository TeamRepository)
         {
-            throw new NotImplementedException();
+            _TeamRepository = TeamRepository;
+        }
+        public async Task AddTeam(TeamDTO Team)
+        {
+            await _TeamRepository.AddAsync(new Team()
+            {
+                Id = Team.Id,
+                Name = Team.Name,
+                EntryDate = Team.EntryDate,
+            });
         }
 
-        public Task<IEnumerable<TeamDTO>> BrowseAll()
+        public async Task<IEnumerable<TeamDTO>> BrowseAll()
         {
-            throw new NotImplementedException();
+            var z = await _TeamRepository.BrowseAllAsync();
+            return z.Select(x => new TeamDTO()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                EntryDate = x.EntryDate,
+            });
         }
 
-        public Task DeleteTeam(int id)
+        public async Task DeleteTeam(int id)
         {
-            throw new NotImplementedException();
+            await _TeamRepository.DelAsync(new Team()
+            {
+                Id = id
+            });
+            await Task.CompletedTask;
         }
 
-        public Task EditTeam(TeamDTO team, int id)
+        public async Task EditTeam(TeamDTO Team, int id)
         {
-            throw new NotImplementedException();
+            await _TeamRepository.UpdateAsync(new Team()
+            {
+                Id = id,
+                Name = Team.Name,
+                EntryDate = Team.EntryDate
+            });
+            await Task.CompletedTask;
         }
 
-        public Task<TeamDTO> GetTeam(int id)
+        public async Task<TeamDTO> GetTeam(int id)
         {
-            throw new NotImplementedException();
+            var z = await _TeamRepository.GetAsync(id);
+
+            return new TeamDTO()
+            {
+                Id = z.Id,
+                Name = z.Name,
+                EntryDate = z.EntryDate
+            };
         }
     }
 }
