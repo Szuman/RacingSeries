@@ -1,35 +1,34 @@
-﻿using RacingSeries.Core.Domain;
-using RacingSeries.Core.Repositories;
+﻿using RacingSeries.Infrastructure.DTO;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RacingSeries.Infrastructure.Repositories
+namespace RacingSeries.Infrastructure.Services
 {
-    public class EventRepository : IEventRepository
+    public class TeamService : ITeamService
     {
-        public Task AddAsync(Event _event)
+        public Task AddTeam(TeamDTO team)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Event>> BrowseAllAsync()
+        public Task<IEnumerable<TeamDTO>> BrowseAll()
         {
             throw new NotImplementedException();
         }
 
-        public Task DelAsync(Event _event)
+        public Task DeleteTeam(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Event> GetAsync(int id)
+        public Task EditTeam(TeamDTO team, int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateAsync(Event _event)
+        public Task<TeamDTO> GetTeam(int id)
         {
             throw new NotImplementedException();
         }
