@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RacingSeries.WebAPI.Controllers
 {
+    [Route("[Controller]")]
     public class DriverController : Controller
     {
         private readonly IDriverService _driverService;
@@ -15,6 +16,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: DriverController
+        [HttpGet]
         public async Task<IActionResult> BrowseAll()
         {
             var d = await _driverService.BrowseAll();
@@ -22,6 +24,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: DriverController/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetDriver(int id)
         {
             var d = await _driverService.GetDriver(id);

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace RacingSeries.WebAPI.Controllers
 {
+    [Route("[Controller]")]
     public class TeamController : Controller
     {
         private readonly ITeamService _TeamService;
@@ -14,6 +15,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: TeamController
+        [HttpGet]
         public async Task<IActionResult> BrowseAll()
         {
             var d = await _TeamService.BrowseAll();
@@ -21,6 +23,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: TeamController/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTeam(int id)
         {
             var d = await _TeamService.GetTeam(id);

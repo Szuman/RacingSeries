@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 namespace RacingSeries.WebAPI.Controllers
 {
+    [Route("[Controller]")]
     public class SponsorController : Controller
     {
         private readonly ISponsorService _SponsorService;
@@ -14,6 +15,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: SponsorController
+        [HttpGet]
         public async Task<IActionResult> BrowseAll()
         {
             var d = await _SponsorService.BrowseAll();
@@ -21,6 +23,7 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // GET: SponsorController/5
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetSponsor(int id)
         {
             var d = await _SponsorService.GetSponsor(id);
