@@ -60,7 +60,6 @@ namespace RacingSeries.Infrastructure.Repositories
             {
                 var z = _appDbContext.Tracks.FirstOrDefault(x => x.Id == Track.Id);
 
-                z.Id = Track.Id;
                 z.Name = Track.Name;
                 z.City = Track.City;
                 z.Country = Track.Country;

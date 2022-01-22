@@ -40,15 +40,15 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // PUT: DriverController/5
-        [HttpPut("id")]
-        public async Task<IActionResult> EditDriver([FromBody] int id, DriverDTO driver)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditDriver([FromBody] DriverDTO driver, int id)
         {
             await _driverService.EditDriver(driver, id);
             return Ok();
         }
 
         // DELETE: DriverController/Delete/5
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteDriver(int id)
         {
             await _driverService.DeleteDriver(id);

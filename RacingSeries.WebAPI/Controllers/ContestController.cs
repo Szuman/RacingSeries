@@ -39,15 +39,15 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // PUT: ContestController/5
-        [HttpPut("id")]
-        public async Task<IActionResult> EditContest([FromBody] int id, ContestDTO Contest)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditContest([FromBody] ContestDTO Contest, int id)
         {
             await _ContestService.EditContest(Contest, id);
             return Ok();
         }
 
         // DELETE: ContestController/5
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContest(int id)
         {
             await _ContestService.DeleteContest(id);

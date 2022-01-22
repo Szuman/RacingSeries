@@ -38,7 +38,7 @@ namespace RacingSeries.WebApp.Controllers
                     return RedirectToAction("Index", "Home");
                 }
             }
-            ModelState.AddModelError("", "Niepoprawna nazwa użytkownika lub hasło...");
+            ModelState.AddModelError("", "Incorrect username or password...");
             return View(loginVM);
         }
 

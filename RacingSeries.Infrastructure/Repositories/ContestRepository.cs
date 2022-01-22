@@ -60,7 +60,6 @@ namespace RacingSeries.Infrastructure.Repositories
             {
                 var z = _appDbContext.Contests.FirstOrDefault(x => x.Id == Contest.Id);
 
-                z.Id = Contest.Id;
                 z.Name = Contest.Name;
                 z.DateTime = Contest.DateTime;
 

@@ -39,15 +39,15 @@ namespace RacingSeries.WebAPI.Controllers
         }
 
         // PUT: SponsorController/5
-        [HttpPut("id")]
-        public async Task<IActionResult> EditSponsor([FromBody] int id, SponsorDTO Sponsor)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditSponsor([FromBody] SponsorDTO Sponsor, int id)
         {
             await _SponsorService.EditSponsor(Sponsor, id);
             return Ok();
         }
 
         // DELETE: SponsorController/Delete/5
-        [HttpDelete("id")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteSponsor(int id)
         {
             await _SponsorService.DeleteSponsor(id);

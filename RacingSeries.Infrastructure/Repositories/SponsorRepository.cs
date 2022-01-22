@@ -60,7 +60,6 @@ namespace RacingSeries.Infrastructure.Repositories
             {
                 var z = _appDbContext.Sponsors.FirstOrDefault(x => x.Id == Sponsor.Id);
 
-                z.Id = Sponsor.Id;
                 z.Name = Sponsor.Name;
                 z.Description = Sponsor.Description;
 

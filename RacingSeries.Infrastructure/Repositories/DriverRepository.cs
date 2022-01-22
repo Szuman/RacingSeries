@@ -60,7 +60,6 @@ namespace RacingSeries.Infrastructure.Repositories
             {
                 var z = _appDbContext.Drivers.FirstOrDefault(x => x.Id == driver.Id);
 
-                z.Id = driver.Id;
                 z.FirstName = driver.FirstName;
                 z.LastName = driver.LastName;
                 z.BirthDate = driver.BirthDate;

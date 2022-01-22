@@ -14,7 +14,7 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RacingSeries.WebApp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">RacingSeries</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -23,9 +23,6 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Driver" asp-action="Index">Drivers</a>
@@ -46,7 +43,7 @@
                             if (User.IsInRole("admin") || User.IsInRole("Masi"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Secret" asp-action="Index">*Race Control</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Secret" asp-action="Index">Race Control</a>
                                 </li>
                             }
                             else  //tylko wyswietl nieaktywną opcję
@@ -56,27 +53,6 @@
                                 </li>
                             }
                         }
- 
-                        @* Panel administracyjny TYLKO dla roli "admin" *@
-                        @{
-                            if (User.IsInRole("admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Admin" 
-                                    asp-action="Index">**Admin Room</a>
-                                </li>
-                            }
-                            else  //tylko wyswietl nieaktywną opcję
-                            {
-                                <li class="nav-link text-dark">
-                                    <span style="color:darkgray">**Admin Room</span>
-                                </li>
-                            }
-                        }
-                                            <li class="nav-item">
-                        @*<a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Zarejestruj się</a>*@
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="RegisterWithConfirm">Zarejestruj się</a>
-                    </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
  
@@ -94,7 +70,10 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Sign in</a>
-                            </li>
+                                </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                                </li>
                         }
                     </ul>
                 </div>
@@ -109,7 +88,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - RacingSeries.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - RacingSeries.WebApp
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
